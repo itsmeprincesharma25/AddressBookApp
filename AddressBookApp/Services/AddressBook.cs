@@ -99,6 +99,21 @@ public class AddressBook
             Console.WriteLine($"Error: {ex.Message}");
         }
     }
+    
+    public void DeleteContact(string firstName, string lastName)
+    {
+        Contact? contact = contacts.FirstOrDefault(
+            c => c.FirstName == firstName && c.LastName == lastName);
+
+        if (contact == null)
+        {
+            Console.WriteLine("Contact not found.");
+            return;
+        }
+
+        contacts.Remove(contact);
+        Console.WriteLine("Contact deleted.");
+    }
 
     private static string ReadValue(string message, string currentValue)
     {
