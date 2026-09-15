@@ -9,6 +9,7 @@ while (true)
 {
     Console.WriteLine("\n1. Add Contact");
     Console.WriteLine("2. Show All Contacts");
+    Console.WriteLine("3. Edit Contact");
     Console.WriteLine("0. Exit");
     Console.Write("Enter your choice: ");
 
@@ -67,6 +68,16 @@ while (true)
 
         case "2":
             addressBook.PrintAll();
+            break;
+        
+        case "3":
+            Console.Write("Enter first name to edit: ");
+            string editFirstName = Console.ReadLine() ?? "";
+
+            Console.Write("Enter last name to edit: ");
+            string editLastName = Console.ReadLine() ?? "";
+
+            addressBook.EditContact(editFirstName, editLastName);
             break;
 
         case "0":
