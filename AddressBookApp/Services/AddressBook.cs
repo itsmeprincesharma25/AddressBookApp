@@ -125,6 +125,22 @@ public class AddressBook
         contacts.Remove(contact);
         Console.WriteLine("Contact deleted.");
     }
+    
+    public IReadOnlyList<Contact> SearchByCity(string city)
+    {
+        return contacts
+            .Where(contact =>
+                contact.City.Equals(city, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+    }
+    
+    public IReadOnlyList<Contact> SearchByState(string state)
+    {
+        return contacts
+            .Where(contact =>
+                contact.State.Equals(state, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+    }
 
     private static string ReadValue(string message, string currentValue)
     {

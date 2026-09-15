@@ -14,6 +14,8 @@ while (true)
     Console.WriteLine("3. Edit Contact");
     Console.WriteLine("4. Delete Contact");
     Console.WriteLine("5. Total Contact Count");
+    Console.WriteLine("6. Search by City");
+    Console.WriteLine("7. Search by State");
     Console.WriteLine("0. Exit");
     Console.Write("Enter your choice: ");
 
@@ -97,6 +99,38 @@ while (true)
         case "5":
             Console.WriteLine(
                 $"Total contacts in all address books: {addressBookMain.GetTotalContactCount()}");
+            break;
+        
+        case "6":
+            Console.Write("Enter city to search: ");
+            string cityToSearch = Console.ReadLine() ?? "";
+
+            IReadOnlyList<Contact> cityResults =
+                addressBookMain.SearchByCity(cityToSearch);
+
+            Console.WriteLine($"Found {cityResults.Count} contact(s):");
+
+            foreach (Contact matchedContact in cityResults)
+            {
+                Console.WriteLine(matchedContact);
+            }
+
+            break;
+        
+        case "7":
+            Console.Write("Enter state to search: ");
+            string stateToSearch = Console.ReadLine() ?? "";
+
+            IReadOnlyList<Contact> stateResults =
+                addressBookMain.SearchByState(stateToSearch);
+
+            Console.WriteLine($"Found {stateResults.Count} contact(s):");
+
+            foreach (Contact matchedContact in stateResults)
+            {
+                Console.WriteLine(matchedContact);
+            }
+
             break;
 
         case "0":
