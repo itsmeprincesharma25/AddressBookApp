@@ -18,6 +18,7 @@ while (true)
     Console.WriteLine("7. Search by State");
     Console.WriteLine("8. View Contacts by City/State");
     Console.WriteLine("9. Count Contacts by City/State");
+    Console.WriteLine("10. Sort Contacts by Name");
     Console.WriteLine("0. Exit");
     Console.Write("Enter your choice: ");
 
@@ -140,6 +141,16 @@ while (true)
             break;
         case "9":
             addressBookMain.GetCountByCityOrState();
+            break;
+        
+        case "10":
+            IReadOnlyList<Contact> sortedContacts = addressBook.SortByName();
+
+            foreach (Contact sortedContact in sortedContacts)
+            {
+                Console.WriteLine(sortedContact);
+            }
+
             break;
 
         case "0":

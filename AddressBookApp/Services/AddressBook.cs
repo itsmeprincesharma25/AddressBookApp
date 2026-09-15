@@ -125,6 +125,13 @@ public class AddressBook
         contacts.Remove(contact);
         Console.WriteLine("Contact deleted.");
     }
+    public IReadOnlyList<Contact> SortByName()
+    {
+        return contacts
+            .OrderBy(contact => contact.FirstName)
+            .ThenBy(contact => contact.LastName)
+            .ToList();
+    }
     
     public IReadOnlyList<Contact> SearchByCity(string city)
     {
