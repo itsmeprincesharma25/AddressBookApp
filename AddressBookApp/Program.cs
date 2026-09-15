@@ -1,4 +1,5 @@
 using AddressBookApp.Models;
+using AddressBookApp.Validation;
 
 var contact = new Contact(
     "John",
@@ -11,4 +12,13 @@ var contact = new Contact(
     "john.doe@mail.com"
 );
 
-Console.WriteLine(contact);
+try
+{
+    ContactValidator.Validate(contact);
+    Console.WriteLine("Contact is valid.");
+    Console.WriteLine(contact);
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Error: {ex.Message}");
+}
