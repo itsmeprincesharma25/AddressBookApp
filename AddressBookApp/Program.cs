@@ -5,9 +5,80 @@ using AddressBookApp.Validation;
 
 AddressBook addressBook = new();
 AddressBookMain addressBookMain = new();
+
 addressBookMain.AddAddressBook(addressBook);
 
 while (true)
+{
+    ShowMenu();
+
+    string choice = Console.ReadLine() ?? "";
+
+    switch (choice)
+    {
+        case "1":
+            AddContact(addressBook);
+            break;
+
+        case "2":
+            addressBook.PrintAll();
+            break;
+
+        case "3":
+            EditContact(addressBook);
+            break;
+
+        case "4":
+            DeleteContact(addressBook);
+            break;
+
+        case "5":
+            Console.WriteLine(
+                $"Total contacts in all address books: {addressBookMain.GetTotalContactCount()}");
+            break;
+
+        case "6":
+            SearchByCity(addressBookMain);
+            break;
+
+        case "7":
+            SearchByState(addressBookMain);
+            break;
+
+        case "8":
+            addressBookMain.ViewByCityOrState();
+            break;
+
+        case "9":
+            addressBookMain.GetCountByCityOrState();
+            break;
+
+        case "10":
+            PrintContacts(addressBook.SortByName());
+            break;
+
+        case "11":
+            PrintContacts(addressBook.SortByCity());
+            break;
+
+        case "12":
+            PrintContacts(addressBook.SortByState());
+            break;
+
+        case "13":
+            PrintContacts(addressBook.SortByZip());
+            break;
+
+        case "0":
+            return;
+
+        default:
+            Console.WriteLine("Invalid choice.");
+            break;
+    }
+}
+
+static void ShowMenu()
 {
     Console.WriteLine("\n1. Add Contact");
     Console.WriteLine("2. Show All Contacts");
@@ -24,173 +95,118 @@ while (true)
     Console.WriteLine("13. Sort Contacts by Zip");
     Console.WriteLine("0. Exit");
     Console.Write("Enter your choice: ");
+}
 
-    string? choice = Console.ReadLine();
+static void AddContact(AddressBook addressBook)
+{
+    Contact contact = ReadContact();
 
-    switch (choice)
+    try
     {
-        case "1":
-            Console.Write("Enter first name: ");
-            string firstName = Console.ReadLine() ?? "";
+        ContactValidator.Validate(contact);
+        addressBook.AddContact(contact);
+        Console.WriteLine("Contact added successfully.");
+    }
+    catch (InvalidContactException ex)
+    {
+        Console.WriteLine($"Error: {ex.Message}");
+    }
+}
 
-            Console.Write("Enter last name: ");
-            string lastName = Console.ReadLine() ?? "";
+static Contact ReadContact()
+{
+    Console.Write("Enter first name: ");
+    string firstName = Console.ReadLine() ?? "";
 
-            Console.Write("Enter address: ");
-            string address = Console.ReadLine() ?? "";
+    Console.Write("Enter last name: ");
+    string lastName = Console.ReadLine() ?? "";
 
-            Console.Write("Enter city: ");
-            string city = Console.ReadLine() ?? "";
+    Console.Write("Enter address: ");
+    string address = Console.ReadLine() ?? "";
 
-            Console.Write("Enter state: ");
-            string state = Console.ReadLine() ?? "";
+    Console.Write("Enter city: ");
+    string city = Console.ReadLine() ?? "";
 
-            Console.Write("Enter zip: ");
-            string zip = Console.ReadLine() ?? "";
+    Console.Write("Enter state: ");
+    string state = Console.ReadLine() ?? "";
 
-            Console.Write("Enter phone number: ");
-            string phoneNumber = Console.ReadLine() ?? "";
+    Console.Write("Enter zip: ");
+    string zip = Console.ReadLine() ?? "";
 
-            Console.Write("Enter email: ");
-            string email = Console.ReadLine() ?? "";
+    Console.Write("Enter phone number: ");
+    string phoneNumber = Console.ReadLine() ?? "";
 
-            Contact contact = new(
-                firstName,
-                lastName,
-                address,
-                city,
-                state,
-                zip,
-                phoneNumber,
-                email
-            );
+    Console.Write("Enter email: ");
+    string email = Console.ReadLine() ?? "";
 
-            try
-            {
-                ContactValidator.Validate(contact);
-                addressBook.AddContact(contact);
-                Console.WriteLine("Contact added successfully.");
-            }
-            catch (InvalidContactException ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
+    return new Contact(
+        firstName,
+        lastName,
+        address,
+        city,
+        state,
+        zip,
+        phoneNumber,
+        email
+    );
+}
 
-            break;
+static void EditContact(AddressBook addressBook)
+{
+    Console.Write("Enter first name to edit: ");
+    string firstName = Console.ReadLine() ?? "";
 
-        case "2":
-            addressBook.PrintAll();
-            break;
-        
-        case "3":
-            Console.Write("Enter first name to edit: ");
-            string editFirstName = Console.ReadLine() ?? "";
+    Console.Write("Enter last name to edit: ");
+    string lastName = Console.ReadLine() ?? "";
 
-            Console.Write("Enter last name to edit: ");
-            string editLastName = Console.ReadLine() ?? "";
+    addressBook.EditContact(firstName, lastName);
+}
 
-            addressBook.EditContact(editFirstName, editLastName);
-            break;
-        
-        case "4":
-            Console.Write("Enter first name to delete: ");
-            string deleteFirstName = Console.ReadLine() ?? "";
+static void DeleteContact(AddressBook addressBook)
+{
+    Console.Write("Enter first name to delete: ");
+    string firstName = Console.ReadLine() ?? "";
 
-            Console.Write("Enter last name to delete: ");
-            string deleteLastName = Console.ReadLine() ?? "";
+    Console.Write("Enter last name to delete: ");
+    string lastName = Console.ReadLine() ?? "";
 
-            addressBook.DeleteContact(deleteFirstName, deleteLastName);
-            break;
-        
-        case "5":
-            Console.WriteLine(
-                $"Total contacts in all address books: {addressBookMain.GetTotalContactCount()}");
-            break;
-        
-        case "6":
-            Console.Write("Enter city to search: ");
-            string cityToSearch = Console.ReadLine() ?? "";
+    addressBook.DeleteContact(firstName, lastName);
+}
 
-            IReadOnlyList<Contact> cityResults =
-                addressBookMain.SearchByCity(cityToSearch);
+static void SearchByCity(AddressBookMain addressBookMain)
+{
+    Console.Write("Enter city to search: ");
+    string city = Console.ReadLine() ?? "";
 
-            Console.WriteLine($"Found {cityResults.Count} contact(s):");
+    IReadOnlyList<Contact> results = addressBookMain.SearchByCity(city);
 
-            foreach (Contact matchedContact in cityResults)
-            {
-                Console.WriteLine(matchedContact);
-            }
+    PrintSearchResults(results);
+}
 
-            break;
-        
-        case "7":
-            Console.Write("Enter state to search: ");
-            string stateToSearch = Console.ReadLine() ?? "";
+static void SearchByState(AddressBookMain addressBookMain)
+{
+    Console.Write("Enter state to search: ");
+    string state = Console.ReadLine() ?? "";
 
-            IReadOnlyList<Contact> stateResults =
-                addressBookMain.SearchByState(stateToSearch);
+    IReadOnlyList<Contact> results = addressBookMain.SearchByState(state);
 
-            Console.WriteLine($"Found {stateResults.Count} contact(s):");
+    PrintSearchResults(results);
+}
 
-            foreach (Contact matchedContact in stateResults)
-            {
-                Console.WriteLine(matchedContact);
-            }
+static void PrintSearchResults(IReadOnlyList<Contact> contacts)
+{
+    Console.WriteLine($"Found {contacts.Count} contact(s):");
 
-            break;
-        
-        case "8":
-            addressBookMain.ViewByCityOrState();
-            break;
-        case "9":
-            addressBookMain.GetCountByCityOrState();
-            break;
-        
-        case "10":
-            IReadOnlyList<Contact> sortedContacts = addressBook.SortByName();
+    foreach (Contact contact in contacts)
+    {
+        Console.WriteLine(contact);
+    }
+}
 
-            foreach (Contact sortedContact in sortedContacts)
-            {
-                Console.WriteLine(sortedContact);
-            }
-
-            break;
-        
-        case "11":
-            IReadOnlyList<Contact> contactsByCity = addressBook.SortByCity();
-
-            foreach (Contact sortedContact in contactsByCity)
-            {
-                Console.WriteLine(sortedContact);
-            }
-
-            break;
-
-        case "12":
-            IReadOnlyList<Contact> contactsByState = addressBook.SortByState();
-
-            foreach (Contact sortedContact in contactsByState)
-            {
-                Console.WriteLine(sortedContact);
-            }
-
-            break;
-
-        case "13":
-            IReadOnlyList<Contact> contactsByZip = addressBook.SortByZip();
-
-            foreach (Contact sortedContact in contactsByZip)
-            {
-                Console.WriteLine(sortedContact);
-            }
-
-            break;
-
-        case "0":
-            return;
-
-        default:
-            Console.WriteLine("Invalid choice.");
-            break;
+static void PrintContacts(IReadOnlyList<Contact> contacts)
+{
+    foreach (Contact contact in contacts)
+    {
+        Console.WriteLine(contact);
     }
 }
