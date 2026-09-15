@@ -19,6 +19,9 @@ while (true)
     Console.WriteLine("8. View Contacts by City/State");
     Console.WriteLine("9. Count Contacts by City/State");
     Console.WriteLine("10. Sort Contacts by Name");
+    Console.WriteLine("11. Sort Contacts by City");
+    Console.WriteLine("12. Sort Contacts by State");
+    Console.WriteLine("13. Sort Contacts by Zip");
     Console.WriteLine("0. Exit");
     Console.Write("Enter your choice: ");
 
@@ -147,6 +150,36 @@ while (true)
             IReadOnlyList<Contact> sortedContacts = addressBook.SortByName();
 
             foreach (Contact sortedContact in sortedContacts)
+            {
+                Console.WriteLine(sortedContact);
+            }
+
+            break;
+        
+        case "11":
+            IReadOnlyList<Contact> contactsByCity = addressBook.SortByCity();
+
+            foreach (Contact sortedContact in contactsByCity)
+            {
+                Console.WriteLine(sortedContact);
+            }
+
+            break;
+
+        case "12":
+            IReadOnlyList<Contact> contactsByState = addressBook.SortByState();
+
+            foreach (Contact sortedContact in contactsByState)
+            {
+                Console.WriteLine(sortedContact);
+            }
+
+            break;
+
+        case "13":
+            IReadOnlyList<Contact> contactsByZip = addressBook.SortByZip();
+
+            foreach (Contact sortedContact in contactsByZip)
             {
                 Console.WriteLine(sortedContact);
             }

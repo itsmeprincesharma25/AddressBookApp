@@ -132,7 +132,26 @@ public class AddressBook
             .ThenBy(contact => contact.LastName)
             .ToList();
     }
-    
+    public IReadOnlyList<Contact> SortByCity()
+    {
+        return contacts
+            .OrderBy(contact => contact.City)
+            .ToList();
+    }
+
+    public IReadOnlyList<Contact> SortByState()
+    {
+        return contacts
+            .OrderBy(contact => contact.State)
+            .ToList();
+    }
+
+    public IReadOnlyList<Contact> SortByZip()
+    {
+        return contacts
+            .OrderBy(contact => contact.Zip)
+            .ToList();
+    }
     public IReadOnlyList<Contact> SearchByCity(string city)
     {
         return contacts
