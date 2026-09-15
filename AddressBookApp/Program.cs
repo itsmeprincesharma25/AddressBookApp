@@ -4,6 +4,8 @@ using AddressBookApp.Services;
 using AddressBookApp.Validation;
 
 AddressBook addressBook = new();
+AddressBookMain addressBookMain = new();
+addressBookMain.AddAddressBook(addressBook);
 
 while (true)
 {
@@ -11,6 +13,7 @@ while (true)
     Console.WriteLine("2. Show All Contacts");
     Console.WriteLine("3. Edit Contact");
     Console.WriteLine("4. Delete Contact");
+    Console.WriteLine("5. Total Contact Count");
     Console.WriteLine("0. Exit");
     Console.Write("Enter your choice: ");
 
@@ -89,6 +92,11 @@ while (true)
             string deleteLastName = Console.ReadLine() ?? "";
 
             addressBook.DeleteContact(deleteFirstName, deleteLastName);
+            break;
+        
+        case "5":
+            Console.WriteLine(
+                $"Total contacts in all address books: {addressBookMain.GetTotalContactCount()}");
             break;
 
         case "0":
