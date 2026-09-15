@@ -1,4 +1,3 @@
-using AddressBookApp.Services;
 using AddressBookApp.Models;
 
 namespace AddressBookApp.Services;
@@ -32,5 +31,36 @@ public class AddressBookMain
             .Where(contact =>
                 contact.State.Equals(state, StringComparison.OrdinalIgnoreCase))
             .ToList();
+    }
+    
+    public void ViewByCityOrState()
+    {
+        List<Contact> contacts = books
+            .SelectMany(book => book.Contacts)
+            .ToList();
+
+        Console.WriteLine("\n--- By City ---");
+
+        foreach (IGrouping<string, Contact> group in contacts.GroupBy(contact => contact.City))
+        {
+            Console.WriteLine($"{group.Key}:");
+
+            foreach (Contact contact in group)
+            {
+                Console.WriteLine($" {contact.FirstName} {contact.LastName}");
+            }
+        }
+
+        Console.WriteLine("\n--- By State ---");
+
+        foreach (IGrouping<string, Contact> group in contacts.GroupBy(contact => contact.State))
+        {
+            Console.WriteLine($"{group.Key}:");
+
+            foreach (Contact contact in group)
+            {
+                Console.WriteLine($" {contact.FirstName} {contact.LastName}");
+            }
+        }
     }
 }

@@ -16,6 +16,7 @@ while (true)
     Console.WriteLine("5. Total Contact Count");
     Console.WriteLine("6. Search by City");
     Console.WriteLine("7. Search by State");
+    Console.WriteLine("8. View Contacts by City/State");
     Console.WriteLine("0. Exit");
     Console.Write("Enter your choice: ");
 
@@ -131,6 +132,10 @@ while (true)
                 Console.WriteLine(matchedContact);
             }
 
+            break;
+        
+        case "8":
+            addressBookMain.ViewByCityOrState();
             break;
 
         case "0":
