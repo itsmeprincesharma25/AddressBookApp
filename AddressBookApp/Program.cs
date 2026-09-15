@@ -10,6 +10,7 @@ while (true)
     Console.WriteLine("\n1. Add Contact");
     Console.WriteLine("2. Show All Contacts");
     Console.WriteLine("3. Edit Contact");
+    Console.WriteLine("4. Delete Contact");
     Console.WriteLine("0. Exit");
     Console.Write("Enter your choice: ");
 
@@ -78,6 +79,16 @@ while (true)
             string editLastName = Console.ReadLine() ?? "";
 
             addressBook.EditContact(editFirstName, editLastName);
+            break;
+        
+        case "4":
+            Console.Write("Enter first name to delete: ");
+            string deleteFirstName = Console.ReadLine() ?? "";
+
+            Console.Write("Enter last name to delete: ");
+            string deleteLastName = Console.ReadLine() ?? "";
+
+            addressBook.DeleteContact(deleteFirstName, deleteLastName);
             break;
 
         case "0":
