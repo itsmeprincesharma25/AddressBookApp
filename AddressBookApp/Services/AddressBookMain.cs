@@ -63,4 +63,24 @@ public class AddressBookMain
             }
         }
     }
+    public void GetCountByCityOrState()
+    {
+        List<Contact> contacts = books
+            .SelectMany(book => book.Contacts)
+            .ToList();
+
+        Console.WriteLine("\n--- By City ---");
+
+        foreach (var group in contacts.GroupBy(contact => contact.City))
+        {
+            Console.WriteLine($"{group.Key} = {group.Count()}");
+        }
+
+        Console.WriteLine("\n--- By State ---");
+
+        foreach (var group in contacts.GroupBy(contact => contact.State))
+        {
+            Console.WriteLine($"{group.Key} = {group.Count()}");
+        }
+    }
 }
