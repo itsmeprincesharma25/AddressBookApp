@@ -12,6 +12,17 @@ public class AddressBook
 
     public void AddContact(Contact contact)
     {
+        bool exists = contacts.Any(
+            c => c.FirstName == contact.FirstName &&
+                 c.LastName == contact.LastName);
+
+        if (exists)
+        {
+            Console.WriteLine(
+                $"Contact '{contact.FirstName} {contact.LastName}' already exists. Duplicate not added.");
+            return;
+        }
+
         contacts.Add(contact);
     }
 
